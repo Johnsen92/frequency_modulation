@@ -9,6 +9,8 @@ package sine_cordic_constants is
     type CORDIC_DATA_TYPE is array(2 downto 0) of real;
     
     constant Q_FORMAT_INTEGER_PLACES : integer := 3;
+	
+    constant SIGNAL_GENERATOR_BAUDRATE : integer := 44000;
     
     function MIN(a, b : integer) return integer;
     function MAX(a, b : integer) return integer;
@@ -16,6 +18,7 @@ package sine_cordic_constants is
     function float_to_fixed(x : real; b : integer; w : integer) return std_logic_vector;
     function fixed_to_float(x : std_logic_vector; b : integer) return real;
     function cumulative_product_k(n : integer; b : integer; w : integer) return std_logic_vector;
+    function clks_per_sample(x : time) return integer;
     
 end package;
     
@@ -86,6 +89,13 @@ package body sine_cordic_constants is
     begin
         return real(to_integer(signed(x))) / 2.0**b;
     end function;
+
+    function clks_per_sample(x : time) return integer
+    is
+    begin
+        return ((1 sec)/x)/SIGNAL_GENERATOR_BAUDRATE;
+    end function;
+
 
     function cumulative_product_k(n : integer; b : integer; w : integer) return std_logic_vector
     is
