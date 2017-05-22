@@ -44,8 +44,8 @@ architecture beh of testbench is
     signal cps : integer;
 
 begin
-    result_converted <= fixed_to_float(result, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES);
-    frequency <= float_to_fixed(1000.0, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
+    result_converted <= fixed_to_float(sine_signal, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES);
+    frequency <= float_to_fixed(0.5, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
     amplitude <= float_to_fixed(1.0, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
 
 
