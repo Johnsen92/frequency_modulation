@@ -29,7 +29,7 @@ begin
 end process;
 
 sync : process(reset, clk)
-    constant MULT_RESULT_HIGH : integer := DATA_WIDTH*2 - Q_FORMAT_INTEGER_PLACES;
+    constant MULT_RESULT_HIGH : integer := DATA_WIDTH*2 - Q_FORMAT_INTEGER_PLACES - 1;
     constant MULT_RESULT_LOW : integer := MAX(MULT_RESULT_HIGH+1 - (DATA_WIDTH), 0);
 begin
     if(rising_edge(clk)) then

@@ -9,7 +9,8 @@ entity modulator is
         DATA_WIDTH  		: integer := 8;
 	MAX_AMPLITUDE		: real := 1.0;
 	MIN_AMPLITUDE		: real := -1.0;
-	FREQUENCY_DEV_KHZ	: real := 2.0
+	FREQUENCY_DEV_KHZ	: real := 0.5;
+	CARRIER_FREQUENCY_KHZ	: real := 1.0
     );
     port (
         clk     		: in std_logic;
@@ -42,6 +43,7 @@ architecture modulator_arc of modulator is
 				  --MODULATOR_STATE_CONVERT_TO_FIXED,
                                   MODULATOR_STATE_CALCULATE_RELATIVE_AMPLITUDE_DEVIATION,
 				  MODULATOR_STATE_SCALE,
+				  MODULATOR_STATE_ADD_CARRIER_FRQ,
 				  MODULATOR_STATE_WRITE_OUTPUT);
 
 	-- state signals
@@ -55,6 +57,8 @@ architecture modulator_arc of modulator is
 	signal deviation_int_next	: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal deviation_scaled_int	: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal deviation_scaled_int_next: std_logic_vector(DATA_WIDTH-1 downto 0);
+	signal carrier_frq_int		: std_logic_vector(DATA_WIDTH-1 downto 0);
+	signal carrier_frq_int_next	: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal frq_deviation_khz_next	: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal done_next		: std_logic;
 	signal scaling_result		: std_logic_vector(DATA_WIDTH-1 downto 0);
@@ -93,8 +97,10 @@ begin
 				state_next <= MODULATOR_STATE_SCALE;
 			when MODULATOR_STATE_SCALE =>
 				if wait_for_mult = '1' then
-					state_next <= MODULATOR_STATE_WRITE_OUTPUT;
+					state_next <= MODULATOR_STATE_ADD_CARRIER_FRQ;
 				end if;
+			when MODULATOR_STATE_ADD_CARRIER_FRQ =>
+				state_next <= MODULATOR_STATE_WRITE_OUTPUT;
 			when MODULATOR_STATE_WRITE_OUTPUT =>
 				state_next <= MODULATOR_STATE_READY;
 		end case;
@@ -109,6 +115,7 @@ begin
 		deviation_scaled_int_next <= deviation_scaled_int;
 		done_next <= '0';
 		wait_for_mult_next <= '0';
+		carrier_frq_int_next <= carrier_frq_int;
 
 		case state is
 			when MODULATOR_STATE_READY =>
@@ -118,8 +125,10 @@ begin
 			when MODULATOR_STATE_SCALE =>
 				wait_for_mult_next <= '1';
 				deviation_scaled_int_next <= scaling_result;
+			when MODULATOR_STATE_ADD_CARRIER_FRQ =>
+				carrier_frq_int_next <= std_logic_vector(signed(deviation_scaled_int) + signed(float_to_fixed(CARRIER_FREQUENCY_KHZ, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH)));
 			when MODULATOR_STATE_WRITE_OUTPUT =>
-				frq_deviation_khz_next <= deviation_scaled_int;
+				frq_deviation_khz_next <= carrier_frq_int;
 				done_next <= '1';
 		end case;
 	end process;
@@ -136,6 +145,7 @@ begin
 			deviation_scaled_int <= (others => '0');
 			frq_deviation_khz <= (others => '0');
 			wait_for_mult <= '0';
+			carrier_frq_int <= float_to_fixed(CARRIER_FREQUENCY_KHZ, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
 		else
 			if rising_edge(clk) then
 				state <= state_next;
@@ -144,6 +154,7 @@ begin
 				deviation_scaled_int <= deviation_scaled_int_next;
 				frq_deviation_khz <= frq_deviation_khz_next;
 				wait_for_mult <= wait_for_mult_next;
+				carrier_frq_int <= carrier_frq_int_next;
 				done <= done_next;
 			end if;
 		end if;

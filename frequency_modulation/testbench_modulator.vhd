@@ -12,9 +12,10 @@ architecture beh of testbench_modulator is
 
     component modulator is
 	    generic (
-	        DATA_WIDTH  	: integer := 8;
-		MAX_AMPLITUDE	: real := 1.0;
-		MIN_AMPLITUDE	: real := -1.0
+	        DATA_WIDTH  		: integer := 8;
+		MAX_AMPLITUDE		: real := 1.0;
+		MIN_AMPLITUDE		: real := -1.0;
+		FREQUENCY_DEV_KHZ 	: real := 0.5
 	    );
 	    port (
 	        clk     		: in std_logic;
@@ -50,9 +51,10 @@ begin
 
     uut : modulator
         generic map (
-            DATA_WIDTH    => 16,
-	    MAX_AMPLITUDE => 1.0,
-	    MIN_AMPLITUDE => -1.0
+            	DATA_WIDTH    => 16,
+	    	MAX_AMPLITUDE => 1.0,
+	    	MIN_AMPLITUDE => -1.0,
+		FREQUENCY_DEV_KHZ => 0.5
         )
         port map (
             reset   	=> reset,
@@ -96,31 +98,31 @@ begin
 	start <= '1';
 	wait for 40 ns;
 	start <= '0';
-	wait for 80 ns;
+	wait for 120 ns;
 
 	signal_in <= float_to_fixed(0.5, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
 	start <= '1';
 	wait for 40 ns;
 	start <= '0';
-	wait for 80 ns;
+	wait for 120 ns;
 
 	signal_in <= float_to_fixed(0.0, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
 	start <= '1';
 	wait for 40 ns;
 	start <= '0';
-	wait for 80 ns;
+	wait for 120 ns;
 
 	signal_in <= float_to_fixed(-0.5, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
 	start <= '1';
 	wait for 40 ns;
 	start <= '0';
-	wait for 80 ns;
+	wait for 120 ns;
 	
 	signal_in <= float_to_fixed(-1.0, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
 	start <= '1';
 	wait for 40 ns;
 	start <= '0';
-	wait for 80 ns;	
+	wait for 120 ns;	
 
         wait;
     end process;
