@@ -15,7 +15,8 @@ architecture beh of testbench_modulator is
 	        DATA_WIDTH  		: integer := 8;
 		MAX_AMPLITUDE		: real := 1.0;
 		MIN_AMPLITUDE		: real := -1.0;
-		FREQUENCY_DEV_KHZ 	: real := 0.5
+		FREQUENCY_DEV_KHZ 	: real := 0.5;
+		CARRIER_FREQUENCY_KHZ 	: real := 1.0
 	    );
 	    port (
 	        clk     		: in std_logic;
@@ -54,7 +55,8 @@ begin
             	DATA_WIDTH    => 16,
 	    	MAX_AMPLITUDE => 1.0,
 	    	MIN_AMPLITUDE => -1.0,
-		FREQUENCY_DEV_KHZ => 0.5
+		FREQUENCY_DEV_KHZ => 0.5,
+		CARRIER_FREQUENCY_KHZ => 1.0
         )
         port map (
             reset   	=> reset,
