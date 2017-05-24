@@ -20,7 +20,7 @@ architecture beh of testbench_timekeeper is
             clk         : in std_logic;
             reset       : in std_logic;
             sample      : out std_logic;
-            t           : out std_logic_vector(DATA_WIDTH-1 downto 0)
+            phi         : out std_logic_vector(DATA_WIDTH-1 downto 0)
         );
     end component;
 
@@ -34,11 +34,11 @@ architecture beh of testbench_timekeeper is
     constant CLK_PER_SAMPLE_INTERVAL : integer := integer(round(real(CLK_FREQ)/real(SAMPLING_RATE)));
 
     signal clk, reset : std_logic;
-    signal t : std_logic_vector(DATA_WIDTH-1 downto 0);
-    signal t_r : real;
+    signal phi : std_logic_vector(DATA_WIDTH-1 downto 0);
+    signal phi_r : real;
 
 begin
-    t_r <= fixed_to_float(t, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES);
+    phi_r <= fixed_to_float(phi, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES);
     
     tk : timekeeper
         generic map (
@@ -50,7 +50,7 @@ begin
             reset   	=> reset,
             clk     	=> clk,
             sample      => open,
-            t           => t
+            phi         => phi
         );
  
     -- Generates the clock signal
