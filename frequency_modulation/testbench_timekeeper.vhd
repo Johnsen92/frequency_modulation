@@ -13,8 +13,8 @@ architecture beh of testbench_timekeeper is
     component timekeeper is
         generic (
             DATA_WIDTH              : integer := 8;
-            CLK_FREQ                : integer := 50_000_000; -- in Hz
-            SAMPLING_RATE           : integer := 44_000
+            CLK_FREQ                : real := 50_000_000.0; -- in Hz
+            BAUD_RATE               : real := 44_000.0
         );
         port (
             clk         : in std_logic;
@@ -25,13 +25,13 @@ architecture beh of testbench_timekeeper is
     end component;
 
     constant CLK_PERIOD     : time := 20 ns;
-    constant CLK_FREQ       : integer := 50_000_000; --CAUTION: compare with above
+    constant CLK_FREQ       : real := 50_000_000.0; --CAUTION: compare with above
     constant DATA_WIDTH     : integer := 19;
-    constant SAMPLING_RATE  : integer := 44_000;
+    constant BAUD_RATE      : real := 44_000.0;
     
     constant INCREMENT : real := 2.0**(-(DATA_WIDTH - Q_FORMAT_INTEGER_PLACES));
-    constant CLK_PER_INCREMENT : integer := integer(round(real(CLK_FREQ)*INCREMENT));
-    constant CLK_PER_SAMPLE_INTERVAL : integer := integer(round(real(CLK_FREQ)/real(SAMPLING_RATE)));
+constant CLK_PER_INCREMENT : integer := integer(round(CLK_FREQ*INCREMENT));
+constant CLK_PER_SAMPLE_INTERVAL : integer := integer(round(CLK_FREQ/BAUD_RATE));
 
     signal clk, reset : std_logic;
     signal phi : std_logic_vector(DATA_WIDTH-1 downto 0);
@@ -42,9 +42,9 @@ begin
     
     tk : timekeeper
         generic map (
-            DATA_WIDTH      => DATA_WIDTH,
-            CLK_FREQ        => CLK_FREQ,
-            SAMPLING_RATE   => SAMPLING_RATE
+            DATA_WIDTH  => DATA_WIDTH,
+            CLK_FREQ    => CLK_FREQ,
+            BAUD_RATE   => BAUD_RATE
         )
         port map (
             reset   	=> reset,

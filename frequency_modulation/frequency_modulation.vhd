@@ -11,7 +11,6 @@ entity frequency_modulation is
         TIME_PRECISION      : integer := 19;
         INTERNAL_DATA_WIDTH : integer := 16;
         INPUT_DATA_WIDTH    : integer := 14;
-        OUTPUT_DATA_WIDTH   : integer := 12;
         CLK_FREQ            : real := 50_000_000.0; -- in Hz
         BAUD_RATE           : real := 44_000.0;
         CARRIER_FREQ        : real := 1_000.0;
@@ -23,7 +22,7 @@ entity frequency_modulation is
         input           : in std_logic_vector(INPUT_DATA_WIDTH-1 downto 0);
         --input_valid     : in std_logic;
         --output_valid    : out std_logic;
-        output          : out std_logic_vector(INPUT_DATA_WIDTH-1 downto 0)
+        output          : out std_logic_vector(INTERNAL_DATA_WIDTH-1 downto 0)
 	);
 end frequency_modulation;
 
@@ -139,6 +138,13 @@ begin
     mod_start <= sample_flag;
     siggen_start <= mod_done;
     siggen_frequency_in <= std_logic_vector(signed(FIXED_CARRIER_FREQ_KHZ) + signed(mod_frq_deviation));
-    output <= std_logic_vector(resize(signed(sine_signal), OUTPUT_DATA_WIDTH));
+    output <= sine_signal;
+    
+    debug : process(reset, clk, sample_flag)
+    begin
+        if(rising_edge(clk) and reset = '0' and sample_flag = '1') then
+            report real'image(fixed_to_float(sine_signal, INTERNAL_DATA_WIDTH - Q_FORMAT_INTEGER_PLACES)) severity note;
+        end if;
+    end process;
 	
 end architecture;
