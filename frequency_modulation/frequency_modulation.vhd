@@ -14,7 +14,7 @@ entity frequency_modulation is
         CLK_FREQ            : real := 50_000_000.0; -- in Hz
         BAUD_RATE           : real := 44_000.0;
         CARRIER_FREQ        : real := 1_000.0;
-        FREQUENCY_DEV_KHZ   : real := 2.0
+        FREQUENCY_DEV_KHZ   : real := 0.5
     );
 	port (
         clk             : in std_logic;
@@ -32,7 +32,7 @@ architecture frequency_modulation_arc of frequency_modulation is
             DATA_WIDTH          : integer := 8;
             MAX_AMPLITUDE       : real := 1.0;
             MIN_AMPLITUDE       : real := -1.0;
-            FREQUENCY_DEV_KHZ   : real := 2.0
+            FREQUENCY_DEV_KHZ   : real := 0.5
         );
         port (
             clk                 : in std_logic;
@@ -92,7 +92,8 @@ begin
     ----------------------------------------
     modulator_inst : modulator
         generic map (
-            DATA_WIDTH      => INTERNAL_DATA_WIDTH
+            DATA_WIDTH      => INTERNAL_DATA_WIDTH,
+	    FREQUENCY_DEV_KHZ => FREQUENCY_DEV_KHZ
         )
         port map (
             clk                 => clk,
@@ -134,10 +135,12 @@ begin
     ----------------------------------------
     --        COMBINATIONAL LOGIC         --
     ----------------------------------------
+    -- input_int <= std_logic_vector(resize(signed(input), INTERNAL_DATA_WIDTH));
     input_int <= std_logic_vector(resize(signed(input), INTERNAL_DATA_WIDTH));
     mod_start <= sample_flag;
     siggen_start <= mod_done;
-    siggen_frequency_in <= std_logic_vector(signed(FIXED_CARRIER_FREQ_KHZ) + signed(mod_frq_deviation));
+    -- siggen_frequency_in <= std_logic_vector(signed(FIXED_CARRIER_FREQ_KHZ) + signed(mod_frq_deviation));
+    siggen_frequency_in <= mod_frq_deviation;
     output <= sine_signal;
     
     debug : process(reset, clk, sample_flag)

@@ -142,6 +142,7 @@ begin  -- signal_generator_arc
 	state_transition : process(cordic_done, start, state)
 	begin
 
+	state_next <= state;
 	case state is
 		when SIGNAL_GENERATOR_STATE_READY =>
 			if start = '1' then

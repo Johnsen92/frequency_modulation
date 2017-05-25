@@ -32,7 +32,7 @@ architecture beh of testbench_fm is
             CLK_FREQ            : real := 50_000_000.0; -- in Hz
             BAUD_RATE           : real := 44_000.0;
             CARRIER_FREQ        : real := 1_000.0;
-            FREQUENCY_DEV_KHZ   : real := 2.0
+            FREQUENCY_DEV_KHZ   : real := 0.5
         );
         port (
             clk             : in std_logic;
@@ -51,13 +51,13 @@ architecture beh of testbench_fm is
     constant INPUT_DATA_WIDTH       : integer := 14;
     constant BAUD_RATE              : real := 44_000.0;
     constant CARRIER_FREQ           : real := 1_000.0;
-    constant FREQUENCY_DEV_KHZ      : real := 2.0;
+    constant FREQUENCY_DEV_KHZ      : real := 0.75;
     
-    constant INPUT_FREQ : real := 100.0; -- used to drive input sine wave
+    constant INPUT_FREQ : real := 1000.0; -- used to drive input sine wave
     
     constant INCREMENT : real := 2.0**(-(INTERNAL_DATA_WIDTH - Q_FORMAT_INTEGER_PLACES));
-constant CLK_PER_INCREMENT : integer := integer(round(CLK_FREQ*INCREMENT));
-constant CLK_PER_SAMPLE_INTERVAL : integer := integer(round(CLK_FREQ/BAUD_RATE));
+    constant CLK_PER_INCREMENT : integer := integer(round(CLK_FREQ*INCREMENT));
+    constant CLK_PER_SAMPLE_INTERVAL : integer := integer(round(CLK_FREQ/BAUD_RATE));
 
     signal clk, reset : std_logic;
     signal phi : std_logic_vector(TIME_PRECISION-1 downto 0);
@@ -68,10 +68,10 @@ constant CLK_PER_SAMPLE_INTERVAL : integer := integer(round(CLK_FREQ/BAUD_RATE))
 
 begin
     phi_r <= fixed_to_float(phi, TIME_PRECISION - Q_FORMAT_INTEGER_PLACES);
-    --in_r <= sin(phi_r);
-    in_r <= -0.75;
+    in_r <= sin(phi_r);
+    --in_r <= 0.0;
     sig_in <= float_to_fixed(in_r, INPUT_DATA_WIDTH - 1, INPUT_DATA_WIDTH);
-    out_r <= fixed_to_float(sig_out, INTERNAL_DATA_WIDTH - 1);
+    out_r <= fixed_to_float(sig_out, INTERNAL_DATA_WIDTH - Q_FORMAT_INTEGER_PLACES);
     
     
     tk_input_gen : timekeeper
