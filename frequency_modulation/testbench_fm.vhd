@@ -25,23 +25,24 @@ architecture beh of testbench_fm is
     end component;
     
     component frequency_modulation is
-        generic (
-            TIME_PRECISION      : integer := 19;
-            INTERNAL_DATA_WIDTH : integer := 16;
-            INPUT_DATA_WIDTH    : integer := 14;
-            CLK_FREQ            : real := 50_000_000.0; -- in Hz
-            BAUD_RATE           : real := 44_000.0;
-            CARRIER_FREQ        : real := 1_000.0;
-            FREQUENCY_DEV_KHZ   : real := 0.5
-        );
-        port (
-            clk             : in std_logic;
-            reset           : in std_logic;
-            input           : in std_logic_vector(INPUT_DATA_WIDTH-1 downto 0);
-            --input_valid     : in std_logic;
-            --output_valid    : out std_logic;
-            output          : out std_logic_vector(INPUT_DATA_WIDTH-1 downto 0)
-        );
+    generic (
+        TIME_PRECISION      : integer := 19;
+        INTERNAL_DATA_WIDTH : integer := 16;
+        INPUT_DATA_WIDTH    : integer := 14;
+        OUTPUT_DATA_WIDTH   : integer := 12;
+        CLK_FREQ            : real := 50_000_000.0; -- in Hz
+        BAUD_RATE           : real := 44_000.0;
+        CARRIER_FREQ        : real := 1_000.0;
+        FREQUENCY_DEV_KHZ   : real := 0.5
+    );
+	port (
+        clk             : in std_logic;
+        reset           : in std_logic;
+        input           : in std_logic_vector(INPUT_DATA_WIDTH-1 downto 0);
+        --input_valid     : in std_logic;
+        output_valid    : out std_logic;
+        output          : out std_logic_vector(OUTPUT_DATA_WIDTH-1 downto 0)
+	);
     end component;
 
     constant CLK_PERIOD             : time := 20 ns;
@@ -49,6 +50,7 @@ architecture beh of testbench_fm is
     constant TIME_PRECISION         : integer := 19;
     constant INTERNAL_DATA_WIDTH    : integer := 16;
     constant INPUT_DATA_WIDTH       : integer := 14;
+    constant OUTPUT_DATA_WIDTH      : integer := 12;
     constant BAUD_RATE              : real := 44_000.0;
     constant CARRIER_FREQ           : real := 1_000.0;
     constant FREQUENCY_DEV_KHZ      : real := 0.75;
@@ -63,7 +65,7 @@ architecture beh of testbench_fm is
     signal phi : std_logic_vector(TIME_PRECISION-1 downto 0);
     signal phi_r : real;
     signal sig_in : std_logic_vector(INPUT_DATA_WIDTH-1 downto 0);
-    signal sig_out : std_logic_vector(INTERNAL_DATA_WIDTH-1 downto 0);
+    signal sig_out : std_logic_vector(OUTPUT_DATA_WIDTH-1 downto 0);
     signal in_r, out_r : real;
 
 begin
@@ -71,7 +73,7 @@ begin
     in_r <= sin(phi_r);
     --in_r <= 0.0;
     sig_in <= float_to_fixed(in_r, INPUT_DATA_WIDTH - 1, INPUT_DATA_WIDTH);
-    out_r <= fixed_to_float(sig_out, INTERNAL_DATA_WIDTH - Q_FORMAT_INTEGER_PLACES);
+    out_r <= fixed_to_float(sig_out, OUTPUT_DATA_WIDTH - Q_FORMAT_INTEGER_PLACES);
     
     
     tk_input_gen : timekeeper

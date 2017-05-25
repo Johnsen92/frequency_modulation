@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=C:\Users\John D\Desktop\frequency_modulation\xilinx\top.ncd
+OUTFILE=C:\Users\John D\Desktop\frequency_modulation\xilinx\top.bit
+FAMILY=Spartan3A and Spartan3AN
+PART=xc3s700a-5fg484
+WORKINGDIR=C:\Users\John D\Desktop\frequency_modulation\xilinx
+LICENSE=ISE
+USER_INFO=210816881_1777496145_210626056_762

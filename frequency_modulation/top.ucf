@@ -1,0 +1,157 @@
+##################################################################################
+#
+#  Spartan-3A Starter Kit Board
+#
+##################################################################################
+
+#
+# On this board, VCCAUX is 3.3 volts.
+#
+CONFIG VCCAUX = "3.3" ;
+
+#
+# Configure SUSPEND mode options.
+#
+#   FILTERED is appropriate for use with the switch on this board. Other allowed
+#   settings are NO or UNFILTERED.  If set NO, the AWAKE pin becomes general I/O.
+#   Please read the FPGA User Guide for more information.
+#
+CONFIG ENABLE_SUSPEND = "FILTERED" ;
+
+#
+# Configure POST_CRC options.
+#
+#   DISABLE the post-configuration CRC checking so INIT_B is available for
+#   general I/O after configuration is done.  On this board, INIT_B is used
+#   after configuration to control the Platform Flash device.  Other allowed
+#   settings are ENABLE.  Please read the FPGA User Guide for more information.
+#
+CONFIG POST_CRC = "DISABLE" ;
+
+#
+# Configure SYSCLK
+#
+#   Hmmm, was it really necessary to introduce a 50 MHz clock?
+#
+NET "sysclk_i"       LOC = "E12"  | IOSTANDARD = LVCMOS33 | PERIOD = 20.000 ;
+OFFSET = IN  10.000 VALID 20.000 BEFORE "sysclk_i" ;
+OFFSET = OUT 20.000 AFTER "sysclk_i" ;
+
+#
+# Configure DDR_CLK
+#
+#   There's a 133 MHz clock generator to derive the DDR clock.
+#
+#NET "ddrclk_i"       LOC = "V12"  | IOSTANDARD = LVCMOS33 | PERIOD = 7.500 ;
+#OFFSET = IN  3.2500 VALID 7.500 BEFORE "ddrclk_i" ;
+#OFFSET = OUT 7.500 AFTER "ddrclk_i" ;
+
+#NET "sma_clk"       LOC = "U12"  | IOSTANDARD = LVCMOS33 | PERIOD = 20.000 ;
+#OFFSET = IN  10.000 VALID 20.000 BEFORE "sma_clk" ;
+#OFFSET = OUT 20.000 AFTER "sma_clk" ;
+
+#
+# Character Display (LCD)
+#
+NET "lcd_db_io<0>"  LOC = "Y13"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_db_io<1>"  LOC = "AB18" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_db_io<2>"  LOC = "AB17" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_db_io<3>"  LOC = "AB12" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_db_io<4>"  LOC = "AA12" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_db_io<5>"  LOC = "Y16"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_db_io<6>"  LOC = "AB16" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_db_io<7>"  LOC = "Y15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_en_o"      LOC = "AB4"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_rs_o"      LOC = "Y14"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "lcd_rw_o"      LOC = "W13"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+
+#
+# Push-Buttons (BTN)
+#
+NET "btn_east_i"    LOC = "T16"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "btn_north_i"   LOC = "T14"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "btn_south_i"   LOC = "T15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "btn_west_i"    LOC = "U15"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+
+#
+# Rotary Knob (ROT)
+#
+NET "rot_center_i"  LOC = "R13"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+NET "rot_a_i"       LOC = "T13"  | IOSTANDARD = LVCMOS33 | PULLUP ;
+NET "rot_b_i"       LOC = "R14"  | IOSTANDARD = LVCMOS33 | PULLUP ;
+
+#
+# Mechanical Switches (SW)
+#
+NET "switch_i<0>"   LOC = "V8"   | IOSTANDARD = LVCMOS33 ;
+NET "switch_i<1>"   LOC = "U10"  | IOSTANDARD = LVCMOS33 ;
+NET "switch_i<2>"   LOC = "U8"   | IOSTANDARD = LVCMOS33 ;
+NET "switch_i<3>"   LOC = "T9"   | IOSTANDARD = LVCMOS33 ;
+
+#
+# Discrete Indicators (LED)
+#
+NET "led_o<0>"      LOC = "R20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led_o<1>"      LOC = "T19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led_o<2>"      LOC = "U20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led_o<3>"      LOC = "U19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led_o<4>"      LOC = "V19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led_o<5>"      LOC = "V20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led_o<6>"      LOC = "Y22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "led_o<7>"      LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+
+#
+# SPI Interface Components (DAC, ADC, Amplifier)
+#
+NET "spi_clk_o"     LOC = "AA20" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "spi_dat_o"     LOC = "AB14" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+
+NET "dac_clr_n_o"   LOC = "AB13" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "dac_cs_n_o"    LOC = "W7"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "dac_dat_i"     LOC = "V7"   | IOSTANDARD = LVCMOS33 | PULLUP ;
+
+NET "ad_conv_o"     LOC = "Y6"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "adc_dat_i"     LOC = "D16"  | IOSTANDARD = LVCMOS33 | PULLUP ;
+
+NET "amp_shdn_o"    LOC = "W15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "amp_cs_n_o"    LOC = "W6"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "amp_dat_i"     LOC = "T7"   | IOSTANDARD = LVCMOS33 | PULLUP ;
+
+#
+# 10/100 Ethernet
+#
+#NET "mii_rxclk_i"      LOC = "C12"  | IOSTANDARD = LVCMOS33 | PERIOD = 40.000 ;
+#OFFSET = IN   5.000 VALID 10.000 BEFORE "mii_rxclk_i" ;
+#OFFSET = OUT 10.000 AFTER "mii_rxclk_i" ;
+
+#NET "mii_rxd_i<0>"  LOC = "G7"   | IOSTANDARD = LVCMOS33 | PULLUP ;
+#NET "mii_rxd_i<1>"  LOC = "G8"   | IOSTANDARD = LVCMOS33 | PULLUP ;
+#NET "mii_rxd_i<2>"  LOC = "G9"   | IOSTANDARD = LVCMOS33 | PULLUP ;
+#NET "mii_rxd_i<3>"  LOC = "H9"   | IOSTANDARD = LVCMOS33 | PULLUP ;
+#NET "mii_rxerr_i"   LOC = "G10"  | IOSTANDARD = LVCMOS33 ;
+#NET "mii_rxdv_i"    LOC = "H10"  | IOSTANDARD = LVCMOS33 ;
+
+#NET "mii_col_i"     LOC = "G12"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+#NET "mii_crs_i"     LOC = "H12"  | IOSTANDARD = LVCMOS33 | PULLDOWN ;
+
+#NET "mii_txclk_i"   LOC = "E11"  | IOSTANDARD = LVCMOS33 | PERIOD = 40.000 ;
+#OFFSET = IN   5.000 VALID 10.000 BEFORE "mii_txclk_i" ;
+#OFFSET = OUT 10.000 AFTER "mii_txclk_i" ;
+
+#NET "mii_txd_o<0>"  LOC = "F8"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+#NET "mii_txd_o<1>"  LOC = "E7"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+#NET "mii_txd_o<2>"  LOC = "E6"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+#NET "mii_txd_o<3>"  LOC = "F7"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+#NET "mii_txerr_o"   LOC = "B2"   | IOSTANDARD = LVCMOS33 | PULLUP ;
+#NET "mii_txen_o"    LOC = "D8"   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
+
+#NET "mii_mdc_o"     LOC = "D10"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "mii_mdio_io"   LOC = "E10"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "mii_nrst_io"   LOC = "D15"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+
+#
+#  Serial Interface Lines
+#
+#NET "dce_rxd_i"     LOC = "E16" | IOSTANDARD = LVCMOS33 ;
+#NET "dce_txd_o"     LOC = "F15" | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+

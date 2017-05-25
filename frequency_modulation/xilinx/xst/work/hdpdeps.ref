@@ -1,0 +1,133 @@
+V3 81
+FL X:/DISLab/grieche/frequency_modulation/comp_pack.vhd 2017/05/25.16:45:25 P.20131013
+PH work/comp_pack 1495748110 \
+      FL X:/DISLab/grieche/frequency_modulation/comp_pack.vhd \
+      PB ieee/std_logic_1164 1381692176 CD top CD spi_ifc CD lcd_core CD lcd_fifo \
+      CD lcd_display CD reset CD frequency_modulation CD BUFG CD DNA_PORT
+FL X:/DISLab/grieche/frequency_modulation/cordic_init.vhd 2017/05/03.15:46:16 P.20131013
+EN work/cordic_init 1495748097 \
+      FL X:/DISLab/grieche/frequency_modulation/cordic_init.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB ieee/MATH_REAL 1381692182 PB work/sine_cordic_constants 1495748092
+AR work/cordic_init/cordic_init_arc 1495748098 \
+      FL X:/DISLab/grieche/frequency_modulation/cordic_init.vhd \
+      EN work/cordic_init 1495748097
+FL X:/DISLab/grieche/frequency_modulation/cordic_step.vhd 2017/05/03.15:46:16 P.20131013
+EN work/cordic_step 1495748093 \
+      FL X:/DISLab/grieche/frequency_modulation/cordic_step.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB work/sine_cordic_constants 1495748092
+AR work/cordic_step/cordic_step_arc 1495748094 \
+      FL X:/DISLab/grieche/frequency_modulation/cordic_step.vhd \
+      EN work/cordic_step 1495748093
+FL X:/DISLab/grieche/frequency_modulation/frequency_modulation.vhd 2017/05/25.23:34:42 P.20131013
+EN work/frequency_modulation 1495748117 \
+      FL X:/DISLab/grieche/frequency_modulation/frequency_modulation.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB ieee/MATH_REAL 1381692182 PB work/sine_cordic_constants 1495748092
+AR work/frequency_modulation/frequency_modulation_arc 1495748118 \
+      FL X:/DISLab/grieche/frequency_modulation/frequency_modulation.vhd \
+      EN work/frequency_modulation 1495748117 CP modulator CP signal_generator \
+      CP timekeeper
+FL X:/DISLab/grieche/frequency_modulation/lcd_core_.vhd 2015/02/19.09:54:52 P.20131013
+EN work/lcd_core 1495748113 \
+      FL X:/DISLab/grieche/frequency_modulation/lcd_core_.vhd \
+      PB ieee/std_logic_1164 1381692176
+FL X:/DISLab/grieche/frequency_modulation/lcd_core_rtl.vhd 2015/02/19.09:54:52 P.20131013
+AR work/lcd_core/rtl 1495748120 \
+      FL X:/DISLab/grieche/frequency_modulation/lcd_core_rtl.vhd EN work/lcd_core 1495748113 \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PH work/comp_pack 1495748110 CP lcd_fifo
+FL X:/DISLab/grieche/frequency_modulation/lcd_display_.vhd 2015/02/19.09:54:52 P.20131013
+EN work/lcd_display 1495748112 \
+      FL X:/DISLab/grieche/frequency_modulation/lcd_display_.vhd \
+      PB ieee/std_logic_1164 1381692176
+FL X:/DISLab/grieche/frequency_modulation/lcd_display_rtl.vhd 2017/05/25.18:23:49 P.20131013
+AR work/lcd_display/rtl 1495748121 \
+      FL X:/DISLab/grieche/frequency_modulation/lcd_display_rtl.vhd \
+      EN work/lcd_display 1495748112 PB ieee/std_logic_1164 1381692176 \
+      PB ieee/NUMERIC_STD 1381692181
+FL X:/DISLab/grieche/frequency_modulation/lcd_fifo_.vhd 2015/02/19.09:54:52 P.20131013
+EN work/lcd_fifo 1495748109 \
+      FL X:/DISLab/grieche/frequency_modulation/lcd_fifo_.vhd \
+      PB ieee/std_logic_1164 1381692176
+FL X:/DISLab/grieche/frequency_modulation/lcd_fifo_rtl.vhd 2015/02/19.09:54:52 P.20131013
+AR work/lcd_fifo/beh 1495748123 \
+      FL X:/DISLab/grieche/frequency_modulation/lcd_fifo_rtl.vhd EN work/lcd_fifo 1495748109 \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PH work/comp_pack 1495748110
+FL X:/DISLab/grieche/frequency_modulation/modulator.vhd 2017/05/25.17:37:23 P.20131013
+EN work/modulator 1495748103 \
+      FL X:/DISLab/grieche/frequency_modulation/modulator.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB work/sine_cordic_constants 1495748092
+AR work/modulator/modulator_arc 1495748104 \
+      FL X:/DISLab/grieche/frequency_modulation/modulator.vhd EN work/modulator 1495748103 \
+      CP mult2
+FL X:/DISLab/grieche/frequency_modulation/mult.vhd 2017/05/17.23:41:57 P.20131013
+EN work/mult 1495748095 FL X:/DISLab/grieche/frequency_modulation/mult.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB work/sine_cordic_constants 1495748092
+AR work/mult/mult_arc 1495748096 \
+      FL X:/DISLab/grieche/frequency_modulation/mult.vhd EN work/mult 1495748095
+FL X:/DISLab/grieche/frequency_modulation/mult2.vhd 2017/05/25.20:56:21 P.20131013
+EN work/mult2 1495748099 FL X:/DISLab/grieche/frequency_modulation/mult2.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB work/sine_cordic_constants 1495748092
+AR work/mult2/mult2_arc 1495748100 \
+      FL X:/DISLab/grieche/frequency_modulation/mult2.vhd EN work/mult2 1495748099
+FL X:/DISLab/grieche/frequency_modulation/reset.vhd 2017/05/18.13:31:05 P.20131013
+EN work/reset 1495748115 FL X:/DISLab/grieche/frequency_modulation/reset.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 LB UNISIM \
+      PH unisim/VCOMPONENTS 1381692182
+AR work/reset/BEHAVIORAL 1495748116 \
+      FL X:/DISLab/grieche/frequency_modulation/reset.vhd EN work/reset 1495748115 \
+      CP SRL16
+FL X:/DISLab/grieche/frequency_modulation/signal_generator.vhd 2017/05/25.21:39:22 P.20131013
+EN work/signal_generator 1495748105 \
+      FL X:/DISLab/grieche/frequency_modulation/signal_generator.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB ieee/MATH_REAL 1381692182 PB work/sine_cordic_constants 1495748092
+AR work/signal_generator/signal_generator_arc 1495748106 \
+      FL X:/DISLab/grieche/frequency_modulation/signal_generator.vhd \
+      EN work/signal_generator 1495748105 CP mult2 CP sine_cordic
+FL X:/DISLab/grieche/frequency_modulation/sine_cordic.vhd 2017/05/25.17:01:30 P.20131013
+EN work/sine_cordic 1495748101 \
+      FL X:/DISLab/grieche/frequency_modulation/sine_cordic.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB ieee/MATH_REAL 1381692182 PB work/sine_cordic_constants 1495748092
+AR work/sine_cordic/syn 1495748102 \
+      FL X:/DISLab/grieche/frequency_modulation/sine_cordic.vhd \
+      EN work/sine_cordic 1495748101 CP cordic_step CP mult CP cordic_init
+FL X:/DISLab/grieche/frequency_modulation/sine_cordic_constants.vhd 2017/05/25.16:48:58 P.20131013
+PH work/sine_cordic_constants 1495748091 \
+      FL X:/DISLab/grieche/frequency_modulation/sine_cordic_constants.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB ieee/MATH_REAL 1381692182
+PB work/sine_cordic_constants 1495748092 \
+      FL X:/DISLab/grieche/frequency_modulation/sine_cordic_constants.vhd \
+      PH work/sine_cordic_constants 1495748091
+FL X:/DISLab/grieche/frequency_modulation/spi_.vhd 2017/05/18.13:31:05 P.20131013
+EN work/spi_ifc 1495748111 FL X:/DISLab/grieche/frequency_modulation/spi_.vhd \
+      PB ieee/std_logic_1164 1381692176
+FL X:/DISLab/grieche/frequency_modulation/spi_rtl.vhd 2017/05/18.13:31:05 P.20131013
+AR work/spi_ifc/rtl 1495748122 \
+      FL X:/DISLab/grieche/frequency_modulation/spi_rtl.vhd EN work/spi_ifc 1495748111 \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PH work/comp_pack 1495748110
+FL X:/DISLab/grieche/frequency_modulation/timekeeper.vhd 2017/05/24.18:29:46 P.20131013
+EN work/timekeeper 1495748107 \
+      FL X:/DISLab/grieche/frequency_modulation/timekeeper.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PB ieee/MATH_REAL 1381692182 PB work/sine_cordic_constants 1495748092
+AR work/timekeeper/timekeeper_arc 1495748108 \
+      FL X:/DISLab/grieche/frequency_modulation/timekeeper.vhd EN work/timekeeper 1495748107
+FL X:/DISLab/grieche/frequency_modulation/top_.vhd 2015/02/19.09:54:52 P.20131013
+EN work/top 1495748114 FL X:/DISLab/grieche/frequency_modulation/top_.vhd \
+      PB ieee/std_logic_1164 1381692176
+FL X:/DISLab/grieche/frequency_modulation/top_struc.vhd 2017/05/25.20:21:02 P.20131013
+AR work/top/struc 1495748119 \
+      FL X:/DISLab/grieche/frequency_modulation/top_struc.vhd EN work/top 1495748114 \
+      PB ieee/std_logic_1164 1381692176 PB ieee/NUMERIC_STD 1381692181 \
+      PH work/comp_pack 1495748110 PB work/sine_cordic_constants 1495748092 \
+      CP reset CP BUFG CP lcd_display CP lcd_core CP spi_ifc CP frequency_modulation

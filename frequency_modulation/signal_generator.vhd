@@ -84,8 +84,11 @@ architecture signal_generator_arc of signal_generator is
 	signal amplitude_result_int_next:  std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal step_size_int	 	:  std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal step_size_int_next	:  std_logic_vector(DATA_WIDTH-1 downto 0);
+    signal sine_signal_int      :  std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal sine_signal_next		:  std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal done_next		:  std_logic;
+    signal wait_for_mult    :  std_logic;
+    signal wait_for_mult_next  :  std_logic;
 
 	-- subcomponent wiring signals
 	signal cordic_done	:  std_logic;
@@ -139,7 +142,7 @@ begin  -- signal_generator_arc
         );
 
 	-- state transition process
-	state_transition : process(cordic_done, start, state)
+	state_transition : process(cordic_done, start, state, wait_for_mult)
 	begin
 
 	state_next <= state;
@@ -153,7 +156,9 @@ begin  -- signal_generator_arc
 				state_next <= SIGNAL_GENERATOR_STATE_MULTIPLY_AMPLITUDE_AND_STEP_SIZE;
 			end if;
 		when SIGNAL_GENERATOR_STATE_MULTIPLY_AMPLITUDE_AND_STEP_SIZE =>
-			state_next <= SIGNAL_GENERATOR_STATE_ADD_ANGLE;
+			if wait_for_mult = '1' then
+                state_next <= SIGNAL_GENERATOR_STATE_ADD_ANGLE;
+            end if;
 		when SIGNAL_GENERATOR_STATE_ADD_ANGLE =>
 			state_next <= SIGNAL_GENERATOR_STATE_ADJUST_ANGLE;
 		when SIGNAL_GENERATOR_STATE_ADJUST_ANGLE =>
@@ -166,9 +171,10 @@ begin  -- signal_generator_arc
 	end process state_transition;
 
 	-- state output process
-	state_output : process(frequency, amplitude, cordic_done, cordic_result, step_size_result, amplitude_result, state)
+	state_output : process(step_size_int, amplitude_int, frequency_int, sine_value_int, current_angle_int,
+        amplitude_result_int, amplitude, frequency, cordic_result, step_size_result, amplitude_result, state,
+        sine_signal_int)
 	begin
-
 	done_next <= '0';
 	step_size_int_next <= step_size_int;
 	amplitude_int_next <= amplitude_int;
@@ -177,6 +183,8 @@ begin  -- signal_generator_arc
 	current_angle_int_next <= current_angle_int;
 	cordic_start_int_next <= '0';
 	amplitude_result_int_next <= amplitude_result_int;
+    sine_signal_next <= sine_signal_int;
+    wait_for_mult_next <= '0';
 
 	case state is
 		when SIGNAL_GENERATOR_STATE_READY =>
@@ -188,6 +196,7 @@ begin  -- signal_generator_arc
 		when SIGNAL_GENERATOR_STATE_MULTIPLY_AMPLITUDE_AND_STEP_SIZE =>
 			step_size_int_next <= step_size_result;
 			amplitude_result_int_next <= amplitude_result;
+            wait_for_mult_next <= '1';
 		when SIGNAL_GENERATOR_STATE_ADD_ANGLE =>
 			current_angle_int_next <= std_logic_vector(signed(current_angle_int) + signed(step_size_int));
 		when SIGNAL_GENERATOR_STATE_ADJUST_ANGLE =>
@@ -203,6 +212,9 @@ begin  -- signal_generator_arc
 	end process state_output;
 
 	
+    -- sine_signal <= sine_signal_int;
+	sine_signal <= amplitude_result;
+    
 	-- sync process
 	sync : process(clk, reset)
 	begin
@@ -215,8 +227,9 @@ begin  -- signal_generator_arc
 			frequency_int <= (others => '0');
 			amplitude_result_int <= (others => '0');
 			sine_value_int <= (others => '0');
-			sine_signal <= (others => '0');
+			sine_signal_int <= (others => '0');
 			current_angle_int <= (others => '0');
+            wait_for_mult <= '0';
 		else
 			if rising_edge(clk) then
 				amplitude_int <= amplitude_int_next;
@@ -226,8 +239,9 @@ begin  -- signal_generator_arc
 				step_size_int <= step_size_int_next;
 				amplitude_result_int <= amplitude_result_int_next;
 				current_angle_int <= current_angle_int_next;
-				sine_signal <= sine_signal_next;
+				sine_signal_int <= sine_signal_next;
 				state <= state_next;
+                wait_for_mult <= wait_for_mult_next;
 			end if;
 		end if;
 	end process sync;

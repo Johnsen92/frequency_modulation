@@ -87,7 +87,7 @@ package body sine_cordic_constants is
     function fixed_to_float(x : std_logic_vector; b : integer) return real
     is
     begin
-        return real(to_integer(signed(x))) / 2.0**b;
+        return real(to_integer(signed(x))) / (2.0 ** b);
     end function;
 
     function clks_per_sample(x : time) return integer

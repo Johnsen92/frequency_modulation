@@ -1,0 +1,37 @@
+#ChipScope Core Inserter Project File Version 3.0
+#Thu May 25 18:36:50 CEST 2017
+Project.device.designInputFile=C\:\\Users\\John D\\Desktop\\frequency_modulation\\xilinx\\top_cs.ngc
+Project.device.designOutputFile=C\:\\Users\\John D\\Desktop\\frequency_modulation\\xilinx\\top_cs.ngc
+Project.device.deviceFamily=15
+Project.device.enableRPMs=true
+Project.device.outputDirectory=C\:\\Users\\John D\\Desktop\\frequency_modulation\\xilinx\\_ngo
+Project.device.useSRL16=true
+Project.filter.dimension=3
+Project.filter<0>=
+Project.filter<1>=*time*
+Project.filter<2>=time*
+Project.icon.boundaryScanChain=1
+Project.icon.enableExtTriggerIn=false
+Project.icon.enableExtTriggerOut=false
+Project.icon.triggerInPinName=
+Project.icon.triggerOutPinName=
+Project.unit.dimension=1
+Project.unit<0>.clockEdge=Rising
+Project.unit<0>.dataDepth=16384
+Project.unit<0>.dataEqualsTrigger=false
+Project.unit<0>.dataPortWidth=12
+Project.unit<0>.enableGaps=false
+Project.unit<0>.enableStorageQualification=true
+Project.unit<0>.enableTimestamps=false
+Project.unit<0>.timestampDepth=0
+Project.unit<0>.timestampWidth=0
+Project.unit<0>.triggerConditionCountWidth=0
+Project.unit<0>.triggerMatchCount<0>=1
+Project.unit<0>.triggerMatchCountWidth<0><0>=5
+Project.unit<0>.triggerMatchType<0><0>=1
+Project.unit<0>.triggerPortCount=1
+Project.unit<0>.triggerPortIsData<0>=true
+Project.unit<0>.triggerPortWidth<0>=1
+Project.unit<0>.triggerSequencerLevels=16
+Project.unit<0>.triggerSequencerType=1
+Project.unit<0>.type=ilapro

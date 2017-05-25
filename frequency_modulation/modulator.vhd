@@ -7,16 +7,16 @@ use work.sine_cordic_constants.all;
 entity modulator is
     generic (
         DATA_WIDTH  		: integer := 8;
-	MAX_AMPLITUDE		: real := 1.0;
-	MIN_AMPLITUDE		: real := -1.0;
-	FREQUENCY_DEV_KHZ	: real := 0.5;
-	CARRIER_FREQUENCY_KHZ	: real := 1.0
+	    MAX_AMPLITUDE		: real := 1.0;
+	    MIN_AMPLITUDE		: real := -1.0;
+	    FREQUENCY_DEV_KHZ	: real := 0.5;
+	    CARRIER_FREQUENCY_KHZ	: real := 1.0
     );
     port (
         clk     		: in std_logic;
         reset   		: in std_logic;
-	start			: in std_logic;
-	done			: out std_logic;
+	    start			: in std_logic;
+	    done			: out std_logic;
         signal_in   		: in std_logic_vector(DATA_WIDTH-1 downto 0);
         frq_deviation_khz  	: out std_logic_vector(DATA_WIDTH-1 downto 0)
     );
@@ -60,6 +60,7 @@ architecture modulator_arc of modulator is
 	signal carrier_frq_int		: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal carrier_frq_int_next	: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal frq_deviation_khz_next	: std_logic_vector(DATA_WIDTH-1 downto 0);
+    signal frq_deviation_khz_int : std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal done_next		: std_logic;
 	signal scaling_result		: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal wait_for_mult		: std_logic;
@@ -108,7 +109,8 @@ begin
 	end process state_transition;
 
 	-- state output process
-	state_output : process(state, signal_in, scaling_result)
+	state_output : process(signal_int, deviation_int, deviation_scaled_int, carrier_frq_int, signal_in,
+        scaling_result, state, frq_deviation_khz_int)
 	begin
     		signal_int_next <= signal_int;
 		deviation_int_next <= deviation_int;
@@ -116,6 +118,7 @@ begin
 		done_next <= '0';
 		wait_for_mult_next <= '0';
 		carrier_frq_int_next <= carrier_frq_int;
+        frq_deviation_khz_next <= frq_deviation_khz_int;
 
 		case state is
 			when MODULATOR_STATE_READY =>
@@ -133,6 +136,7 @@ begin
 		end case;
 	end process;
 
+    frq_deviation_khz <= frq_deviation_khz_int;
 	
 	-- sync process
 	sync : process(clk, reset)
@@ -143,7 +147,7 @@ begin
 			signal_int <= (others => '0');
 			deviation_int <= (others => '0');
 			deviation_scaled_int <= (others => '0');
-			frq_deviation_khz <= (others => '0');
+			frq_deviation_khz_int <= (others => '0');
 			wait_for_mult <= '0';
 			carrier_frq_int <= float_to_fixed(CARRIER_FREQUENCY_KHZ, DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, DATA_WIDTH);
 		else
@@ -152,7 +156,7 @@ begin
 				signal_int <= signal_int_next;
 				deviation_int <= deviation_int_next;
 				deviation_scaled_int <= deviation_scaled_int_next;
-				frq_deviation_khz <= frq_deviation_khz_next;
+				frq_deviation_khz_int <= frq_deviation_khz_next;
 				wait_for_mult <= wait_for_mult_next;
 				carrier_frq_int <= carrier_frq_int_next;
 				done <= done_next;

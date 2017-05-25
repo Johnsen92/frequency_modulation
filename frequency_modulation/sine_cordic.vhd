@@ -90,13 +90,21 @@ begin
     -- k_n, a predetermined value, is multiplied to the end result for normalization between -1 and 1.
     k_n <= cumulative_product_k(ITERATION_COUNT, INTERNAL_DATA_WIDTH - Q_FORMAT_INTEGER_PLACES, INTERNAL_DATA_WIDTH);
     -- The input beta is cast to its internal format equivalent.
-    beta_cast(INTERNAL_DATA_WIDTH-1 downto MAX(INTERNAL_DATA_WIDTH - INPUT_DATA_WIDTH, 0)) <= beta(INPUT_DATA_WIDTH-1 downto MAX(INPUT_DATA_WIDTH - INTERNAL_DATA_WIDTH, 0));
-    beta_cast((INTERNAL_DATA_WIDTH - INPUT_DATA_WIDTH)-1 downto 0) <= (others => '0');
+    blah : process(beta)
+    begin
+        beta_cast <= (others => '0');
+        beta_cast(INTERNAL_DATA_WIDTH-1 downto MAX(INTERNAL_DATA_WIDTH - INPUT_DATA_WIDTH, 0)) <= beta(INPUT_DATA_WIDTH-1 downto MAX(INPUT_DATA_WIDTH - INTERNAL_DATA_WIDTH, 0));
+    end process;
+    
     -- After multiplication with k_n, one additional bit is extracted from the multiplication result
     -- to round to the nearest value allowed in the representation. The added 1 accomplishes this rounding
     -- automatically.
-    round_result(RESULT_LOW-1 downto 0) <= (others => '0');
-    round_result(RESULT_HIGH downto RESULT_LOW) <= std_logic_vector(unsigned(mult_result(MULT_RESULT_HIGH downto MULT_RESULT_LOW)) + 1);
+    blah2 : process(mult_result)
+    begin
+        round_result <= (others => '0');
+        round_result(RESULT_HIGH downto RESULT_LOW) <= std_logic_vector(unsigned(mult_result(MULT_RESULT_HIGH downto MULT_RESULT_LOW)) + 1);
+    end process;
+    
     -- The least significant bit of round_result was merely used for rounding; extract the MSBs
     result <= round_result(OUTPUT_DATA_WIDTH downto 1);
     done <= control(ITERATION_COUNT);
