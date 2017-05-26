@@ -212,8 +212,8 @@ begin  -- signal_generator_arc
 	end process state_output;
 
 	
-    -- sine_signal <= sine_signal_int;
-	sine_signal <= amplitude_result;
+    sine_signal <= sine_signal_int;
+	-- sine_signal <= amplitude_result;
     
 	-- sync process
 	sync : process(clk, reset)
@@ -241,6 +241,7 @@ begin  -- signal_generator_arc
 				current_angle_int <= current_angle_int_next;
 				sine_signal_int <= sine_signal_next;
 				state <= state_next;
+				done <= done_next;
                 wait_for_mult <= wait_for_mult_next;
 			end if;
 		end if;
