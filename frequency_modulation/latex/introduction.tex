@@ -1,12 +1,12 @@
 \section{Introduction}
-Out task was to implement frequency modulation using the \textit{sine\_cordic} component we developed in the first task. The amplitude value of the input modulation signal had to be read from the ADC of the Xilinx board. Internally we generated a carrier signal with a rest frequency of 1 kHz. We altered the frequency of the carrier signal according to the amplitude of the input signal. We then wrote the carrier signal to the DAC to convert the signal back to an analog wave. 
+Out task was to implement frequency modulation using the \textit{sine\_cordic} component we developed in the first task. The amplitude value of the input modulation signal had to be read from the ADC of the Xilinx board. Internally we generated a carrier signal with a rest frequency of 1 kHz. We altered the frequency of the carrier signal according to the amplitude of the input signal. We then wrote the altered signal to the DAC to convert the signal back to an analog wave. 
 
 
 \subsection{Frequency Modulation}
 
-Frequency modulation works by transmitting information in the form of altering a signals frequency as pictured in figure 1. The formula we used for this purpose was: $A_csin(2\pi[f_c+f_dA_msin(f_m2\pi)])$
+Frequency modulation works by transmitting information in the form of altering a signal's frequency as pictured in figure 1. The formula we used for this purpose was: $A_csin(2\pi[f_c+f_dA_msin(f_m2\pi)])$
 
-The meaning of the variables is explained in table 1.
+The variables are further explained in table 1.
 
 \begin{figure}[H] 
 \centering % centering figure 

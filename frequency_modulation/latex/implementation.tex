@@ -24,8 +24,8 @@ An overview of the structure of our design can be seen in figure 2.
 			\textbf{Generic} & \textbf{Default} & \textbf{Description} \\
 			\hline
 			DATA\_WIDTH & 8 & Defines the bit width of the signals in this entity \\
-			CLK\_FREQ & 50000000 & Tells the component the clock speed the desing is running on \\
-			BAUD\_RATE & 44000 & That many impulse signals per second will be generated \\
+			CLK\_FREQ & 50000000 & Informs the component of the clock speed the desing is running on \\
+			BAUD\_RATE & 44000 & Determines the frequency of the sample impulses generated \\
 			\hline
 		\end{tabular} 
 	\end{center}
@@ -44,9 +44,11 @@ An overview of the structure of our design can be seen in figure 2.
 	\end{tabular} 
 \end{center}
 
-The timekeeper unit correlates real time and clock time by generating \textit{BAUD\_RATE} impulses per second to be used as start signals for the other components. It also generates 
-different continuos values between $\pi$ and $-\pi$ by incrementing an internal variable for the minimum precision $2^{DATA\_WIDTH}$ times per second. This can be used for testing.
+The timekeeper unit correlates real time and clock time by using counters.
 
+One counter is used to wait $CLK\_FREQ/BAUD\_RATE$ cycles before raising the output $sample$ to high for one cycle. This signal is used as a start flag for the other components and ensures a constant sample frequency of $BAUD\_RATE$ samples per second.
+
+The other counter is used to wait a certain number of clock cycles, determined by ${DATA\_WIDTH}$ and ${CLK\_FREQ}$, before incrementing an internal signal $phi_int$ by $2^{DATA\_WIDTH - 3}$. This signal is incremented until it reaches pi, when it resets to -pi to count anew. This signal represents $(time \% 2*\pi) - \pi$ and can be used for generating signals with constant frequency during testing.
 
 \subsection{modulator}
 
@@ -121,7 +123,7 @@ The modulator takes sample values of the modulation signal and translates them i
 
 \vspace{4mm}
 
-The \textit{signal\_generator} is the core component of the design. The component instantiates the \textit{sine\_cordic} component we developed for the first task to generate a continuous set of sine wave samples with frequency and amplitude according to its inputs. 
+The \textit{signal\_generator} is the core component of the design. The component instantiates the \textit{sine\_cordic} component we developed for the first task to generate a continuous set of sine wave samples with frequency and amplitude according to its inputs. These inputs are variable and the frequency of the output signal is determined by the \textit{modulator}.
 
 
 \subsection{frequency modulation}
@@ -138,7 +140,7 @@ The \textit{signal\_generator} is the core component of the design. The componen
 			OUTPUT\_DATA\_WIDTH & 12 & Data width of the DAC register \\
 			CLK\_FREQ & 50000000 & The clock frequency of the design \\
 			BAUD\_RATE & 44000.0 & The baudrate of the signal generator \\
-			CARRIER\_FREQ & 1.0 & Maximum frequency deviation of the carrier rest frequency in kHz \\
+			CARRIER\_FREQ & 1.0 & The rest frequency of the carrier signal \\
 			FREQUENCY\_DEV\_KHZ & 0.5 & Maximum frequency deviation of the carrier rest frequency in kHz \\
 			\hline
 		\end{tabular} 
@@ -159,7 +161,7 @@ The \textit{signal\_generator} is the core component of the design. The componen
 	\end{tabular} 
 \end{center}
 
-The frequency modulation component is wiring all the component together. It connects the sample impulse signals of the \textit{timekeeper} to the input \textit{start} ports of the other components. It wires the \textit{input} port to the \textit{signal\_in} port of the modulator, the \textit{frq\_deviation\_khz} output port of the \textit{modulator} to the \textit{frequency} input port of the \textit{signal\_generator} and the \textit{sine\_signal} output port of the \textit{signal\_generator} to the \textit{output} port of the \textit{frequency\_modulator}. The \textit{done} output port of the \textit{signal\_generator} is connected to the \textit{output\_valid} output of the \textit{frequency\_modulator}.
+The frequency modulation component wires all the components together. It connects the sample impulse signals of the \textit{timekeeper} to the input \textit{start} ports of the \textit{modulator}, which in turn starts the \textit{signal\_generator}. It wires the \textit{input} port to the \textit{signal\_in} port of the modulator, the \textit{frq\_deviation\_khz} output port of the \textit{modulator} to the \textit{frequency} input port of the \textit{signal\_generator} and the \textit{sine\_signal} output port of the \textit{signal\_generator} to the \textit{output} port of the \textit{frequency\_modulator}. The \textit{done} output port of the \textit{signal\_generator} is connected to the \textit{output\_valid} output of the \textit{frequency\_modulator}.
 
 
 

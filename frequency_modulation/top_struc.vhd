@@ -204,8 +204,8 @@ begin
     --BLAH
     s_reset <= not s_reset_n;
     
-    --output_intermediate <= std_logic_vector(signed(output) + signed(float_to_fixed(1.0, 12 - 3, 12)));
-    --s_dac_ch1 <= output_intermediate(12-2 downto 0) & "0";
+    output_intermediate <= std_logic_vector(signed(output) + signed(float_to_fixed(1.1, 12 - 3, 12)));
+    s_dac_ch1 <= output_intermediate(12-2 downto 0) & "0";
     
     frequency_modulation_inst : frequency_modulation
         generic map (
@@ -224,7 +224,7 @@ begin
             input           => s_adc_ch1,
             --input_valid   => 
             output_valid    => s_dac_ch1_valid,
-            output          => s_dac_ch1
+            output          => output
 	    );
 
     led_o <= std_logic_vector(s_counter (s_counter'high downto s_counter'high-7));

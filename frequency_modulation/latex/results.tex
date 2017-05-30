@@ -1,4 +1,6 @@
 \section{Testing and Results}
 
-We tested the 
+We tested each component of our implementation in separate testbenches before connecting them in \textit{frequency\_modulation}. The file \textit{testbench\_fm.vhd} instantiates an additional timekeeper component so as to generate an input signal with a chosen frequency. It does so by manipulating its \textit{CLK\_FREQ} generic and reading from the output \textit{phi}.
+
+We configured the ADC to output its minimum value at an input of 0.4V and its maximum value at 2.9V. To account for this, the generated signal connected to the ADC must have an offset of 1.65V to be interpreted correctly internally. The values passed to the DAC are also given an offset to maintain the waveform while accounting for the conversion between signed and unsigned values.
   
